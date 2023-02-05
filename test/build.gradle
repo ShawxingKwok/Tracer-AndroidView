@@ -53,6 +53,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.0"
 
-    implementation lib_tracer_common_annotations
+    ksp lib_tracer_common_compiler
     ksp project(':compiler')
+    implementation lib_tracer_common_annotations
 }

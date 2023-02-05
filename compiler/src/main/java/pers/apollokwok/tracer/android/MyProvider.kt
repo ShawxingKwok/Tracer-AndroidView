@@ -6,7 +6,7 @@ import com.google.devtools.ksp.symbol.KSClassDeclaration
 import pers.apollokwok.ksputil.*
 import pers.apollokwok.tracer.common.shared.*
 
-internal class MyProvider : KspProvider(null, ::MyProcessor)
+internal class MyProvider : KspProvider(::MyProcessor)
 
 private class MyProcessor : KspProcessor {
     override fun process(times: Int): List<KSAnnotated> {

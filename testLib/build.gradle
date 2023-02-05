@@ -48,5 +48,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     implementation lib_tracer_common_annotations
+    ksp lib_tracer_common_compiler
     ksp project(':compiler')
 }

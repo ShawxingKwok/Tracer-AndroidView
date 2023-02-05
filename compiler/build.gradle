@@ -12,10 +12,12 @@ java {
 }
 
 group = my_group
-version = version_android_compiler
+version = version_this
 
 publishing {
     publications {
+        String my_url = 'github.com/ApolloKwok/TracerAndroid'
+
         mavenJava(MavenPublication) {
             artifactId = 'tracer-android-compiler'
             from components.java
@@ -55,7 +57,13 @@ publishing {
     }
     repositories {
         maven {
-            url = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+            if (publishMode == "release")
+                url = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2'
+            else if(publishMode == "snapshot")
+                url = "https://oss.sonatype.org/content/repositories/snapshots"
+            else
+                throw Exception()
+
             credentials {
                 username = USERNAME
                 password = PASSWORD
@@ -84,13 +92,13 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach{
         ]
     }
 }
+
 dependencies {
+    implementation lib_tracer_common_annotations
+    implementation lib_tracer_common_processor
     implementation lib_kt_util
     implementation lib_ksp
     implementation lib_ksp_util
-
-    implementation lib_tracer_common_annotations
-    implementation lib_tracer_common_processor
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach{
