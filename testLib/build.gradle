@@ -29,14 +29,6 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    kotlin {
-        sourceSets.debug {
-            kotlin.srcDirs += 'build/generated/ksp/debug/kotlin'
-        }
-        sourceSets.release {
-            kotlin.srcDirs += 'build/generated/ksp/release/kotlin'
-        }
-    }
 }
 
 dependencies {
@@ -46,8 +38,21 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+}
 
-    implementation lib_tracer_common_annotations
+//region tracer
+kotlin {
+    sourceSets.debug.kotlin.srcDirs += 'build/generated/ksp/debug/kotlin'
+    sourceSets.release.kotlin.srcDirs += 'build/generated/ksp/release/kotlin'
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach{
+    kotlinOptions.freeCompilerArgs += "-Xcontext-receivers"
+}
+
+dependencies {
     ksp lib_tracer_common_compiler
     ksp project(':compiler')
+    implementation lib_tracer_common_annotations
 }
+//endregion

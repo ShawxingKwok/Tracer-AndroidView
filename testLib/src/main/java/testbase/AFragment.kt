@@ -13,4 +13,5 @@ internal class AFragment : Fragment(), AFragmentTracer {
 @Tracer.Nodes(AFragment::class)
 internal class BFragment : Fragment(), BFragmentTracer {
     override val _BFragment: BFragment get() = this
+
 }

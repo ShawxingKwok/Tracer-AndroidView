@@ -12,7 +12,7 @@ class D : DTracer {
     init {
         `_MutableList‹Int›_D_list`
     }
-    val list = mutableListOf(1)
+    val list: MutableList<Int> = mutableListOf(1)
 //    val arrayList = arrayListOf(1)
 //    val map = mutableMapOf<Int, Int>()
 }

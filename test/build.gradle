@@ -29,18 +29,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
-        freeCompilerArgs = [
-//                "-Xskip-prerelease-check",
-                "-Xcontext-receivers"
-        ]
-    }
-    kotlin {
-        sourceSets.debug {
-            kotlin.srcDirs += 'build/generated/ksp/debug/kotlin'
-        }
-        sourceSets.release {
-            kotlin.srcDirs += 'build/generated/ksp/release/kotlin'
-        }
     }
 }
 
@@ -52,8 +40,21 @@ dependencies {
     implementation(project(":testLib"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.0"
+}
 
+//region tracer
+kotlin {
+    sourceSets.debug.kotlin.srcDirs += 'build/generated/ksp/debug/kotlin'
+    sourceSets.release.kotlin.srcDirs += 'build/generated/ksp/release/kotlin'
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach{
+    kotlinOptions.freeCompilerArgs += "-Xcontext-receivers"
+}
+
+dependencies {
     ksp lib_tracer_common_compiler
     ksp project(':compiler')
     implementation lib_tracer_common_annotations
 }
+//endregion

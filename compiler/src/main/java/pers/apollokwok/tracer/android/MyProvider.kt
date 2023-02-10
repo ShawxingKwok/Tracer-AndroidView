@@ -17,6 +17,9 @@ private class MyProcessor : KspProcessor {
 
 // add 'override val xx get() = requireActivity()/requireParentFragment()' in 'XxFragmentTracer'
 private fun process(){
+    // return if error just occurred in tracer-common
+    if (!Tags.interfacesBuilt) return
+
     val (activityType, fragmentType) =
         arrayOf(
             "androidx.appcompat.app.AppCompatActivity",
@@ -45,21 +48,40 @@ private fun process(){
         }
         .forEach { (klass, context, requirement) ->
             val declHeader = "    override val `__${context.contractedName}` get() = "
-            val declBody = "`_${klass.contractedName}`.$requirement as ${context.starTypeContent(emptyList())}"
 
+            val cast = buildString {
+                append(context.noPackageName()!!)
+                if (context.typeParameters.any()){
+                    append("<")
+                    append(context.typeParameters.joinToString(", "){ "*" })
+                    append(">")
+                }
+            }
+
+            val declBody = "`_${klass.contractedName}`.$requirement as $cast"
             val outerDeclBody = declBody.replaceFirst("`", "`_")
 
             val pathEnding = "${Names.GENERATED_PACKAGE}.${getInterfaceNames(klass).first}"
                 .replace(".", "/")
                 .plus(".kt")
 
-            val file = Environment.codeGenerator.generatedFile.first { it.path.endsWith(pathEnding) }
+            val correspondingFiles = Environment.codeGenerator.generatedFile.filter { it.path.endsWith(pathEnding) }
 
-            val lines = file.readLines().toMutableList()
+            val lines = correspondingFiles.first().readLines().toMutableList()
+
+            // add an import
+            lines.add(
+                index = lines.indexOfFirst { it.startsWith("import ") },
+                element = "import ${context.outermostDecl.qualifiedName()}"
+            )
+
+            // add the requirement
             lines.add(index = lines.indexOf("}"), element = "$declHeader$declBody")
             lines.add(index = lines.lastIndexOf("}"), element = "$declHeader$outerDeclBody")
 
-            file.writeText(text = lines.joinToString("\n"))
+            val newText = lines.joinToString("\n")
+
+            correspondingFiles.forEach { it.writeText(newText) }
         }
 
     Log.require(wronglyAnnotatedFragmentKlasses.none(), wronglyAnnotatedFragmentKlasses){

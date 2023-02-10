@@ -16,10 +16,10 @@ version = version_this
 
 publishing {
     publications {
-        String my_url = 'github.com/ApolloKwok/TracerAndroid'
+        String my_url = 'github.com/ApolloKwok/TracerAndroidTraditional'
 
         mavenJava(MavenPublication) {
-            artifactId = 'tracer-android-compiler'
+            artifactId = 'tracer-android-traditional-compiler'
             from components.java
             versionMapping {
                 usage('java-api') {
@@ -30,7 +30,7 @@ publishing {
                 }
             }
             pom {
-                name = 'Tracer android compiler'
+                name = 'Tracer android traditioanl compiler'
                 description = 'Let the annotated fragment override its ' +
                         '`parentFragment` or `activity` automatically.'
                 url = "https://$my_url"
@@ -58,9 +58,9 @@ publishing {
     repositories {
         maven {
             if (publishMode == "release")
-                url = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2'
+                url = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
             else if(publishMode == "snapshot")
-                url = "https://oss.sonatype.org/content/repositories/snapshots"
+                url = "https://oss.sonatype.org/content/repositories/snapshots/"
             else
                 throw Exception()
 
@@ -79,17 +79,6 @@ signing {
 javadoc {
     if(JavaVersion.current().isJava9Compatible()) {
         options.addBooleanOption('html5', true)
-    }
-}
-
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach{
-    kotlinOptions {
-        freeCompilerArgs = [
-                "-Xexplicit-api=warning",
-                "-Xcontext-receivers",
-                "-opt-in=com.google.devtools.ksp.KspExperimental",
-                "-opt-in=kotlin.contracts.ExperimentalContracts",
-        ]
     }
 }
 
