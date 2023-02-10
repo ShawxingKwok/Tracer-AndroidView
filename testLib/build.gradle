@@ -16,6 +16,15 @@ android {
         consumerProguardFiles "consumer-rules.pro"
     }
 
+    libraryVariants.all {
+        def variantName = name
+        sourceSets {
+            getByName("main") {
+                java.srcDir(file("$buildDir/generated/ksp/$variantName/kotlin"))
+            }
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -41,11 +50,6 @@ dependencies {
 }
 
 //region tracer
-kotlin {
-    sourceSets.debug.kotlin.srcDirs += 'build/generated/ksp/debug/kotlin'
-    sourceSets.release.kotlin.srcDirs += 'build/generated/ksp/release/kotlin'
-}
-
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach{
     kotlinOptions.freeCompilerArgs += "-Xcontext-receivers"
 }

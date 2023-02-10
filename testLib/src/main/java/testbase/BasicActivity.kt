@@ -17,4 +17,5 @@ abstract class BasicActivity : AppCompatActivity(), BasicActivityTracer {
 
 class Repo {
     val a = 1
+
 }
