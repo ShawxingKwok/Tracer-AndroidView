@@ -16,13 +16,18 @@ android {
         consumerProguardFiles "consumer-rules.pro"
     }
 
-    libraryVariants.all {
-        def variantName = name
-        sourceSets {
-            getByName("main") {
-                java.srcDir(file("$buildDir/generated/ksp/$variantName/kotlin"))
-            }
-        }
+//    libraryVariants.all {
+//        def variantName = name
+//        sourceSets {
+//            getByName("main") {
+//                java.srcDir(file("$buildDir/generated/ksp/$variantName/kotlin"))
+//            }
+//        }
+//    }
+
+    kotlin {
+        sourceSets.debug.kotlin.srcDirs += 'build/generated/ksp/debug/kotlin'
+        sourceSets.release.kotlin.srcDirs += 'build/generated/ksp/release/kotlin'
     }
 
     buildTypes {

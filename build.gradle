@@ -10,11 +10,12 @@ buildscript {
 //        version_kt = '1.8.0'
 //        version_ksp = "$version_kt-1.0.9"
         version_gradle = '7.4.0'
+//        version_gradle = '7.4.0-beta02'
         version_this = "$version_kt-1.0.0"
 
         lib_tracer_common_annotations = "$my_group:tracer-common-annotations:1.7.20-1.1.0"
-        lib_tracer_common_processor = "$my_group:tracer-common-processor:1.7.20-1.1.0"
-        lib_tracer_common_compiler = "$my_group:tracer-common-compiler:1.7.20-1.1.0"
+        lib_tracer_common_processor = "$my_group:tracer-common-processor:1.7.20-1.1.0-SNAPSHOT"
+        lib_tracer_common_compiler = "$my_group:tracer-common-compiler:1.7.20-1.1.0-SNAPSHOT"
 
         lib_kt_util = "$my_group:kt-util:1.0.3"
         lib_ksp = "com.google.devtools.ksp:symbol-processing-api:$version_ksp"

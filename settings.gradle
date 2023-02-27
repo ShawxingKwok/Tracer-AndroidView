@@ -19,8 +19,8 @@ dependencyResolutionManagement {
         maven{
             url "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
             credentials{
-                username USERNAME
-                password PASSWORD
+                username = USERNAME
+                password = PASSWORD
             }
         }
     }

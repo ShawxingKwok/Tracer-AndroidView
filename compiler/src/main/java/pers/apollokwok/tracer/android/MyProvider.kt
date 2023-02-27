@@ -61,7 +61,7 @@ private fun process(){
             val declBody = "`_${klass.contractedName}`.$requirement as $cast"
             val outerDeclBody = declBody.replaceFirst("`", "`_")
 
-            val pathEnding = "${Names.GENERATED_PACKAGE}.${getInterfaceNames(klass).first}"
+            val pathEnding = "${Names.GENERATED_PACKAGE}.${getInterfaceNames(klass).first}s"
                 .replace(".", "/")
                 .plus(".kt")
 
