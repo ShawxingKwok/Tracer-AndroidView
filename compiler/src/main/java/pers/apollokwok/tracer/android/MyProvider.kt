@@ -47,7 +47,7 @@ private fun process(){
             }
         }
         .forEach { (klass, context, requirement) ->
-            val declHeader = "    override val `__${context.contractedName}` get() = "
+            val declHeader = "    override val `__${context.contractedDotName}` get() = "
 
             val cast = buildString {
                 append(context.noPackageName()!!)
@@ -58,10 +58,11 @@ private fun process(){
                 }
             }
 
-            val declBody = "`_${klass.contractedName}`.$requirement as $cast"
+            val declBody = "`_${klass.contractedDotName}`.$requirement as $cast"
             val outerDeclBody = declBody.replaceFirst("`", "`_")
 
             val pathEnding = Names.GENERATED_PACKAGE.replace(".", "/")
+                .plus("/")
                 .plus(getInterfaceNames(klass).first + "s")
                 .plus(".kt")
 
@@ -69,11 +70,13 @@ private fun process(){
 
             val lines = correspondingFiles.first().readLines().toMutableList()
 
-            // add an import
-            lines.add(
-                index = lines.indexOfFirst { it.startsWith("import ") },
-                element = "import ${context.outermostDecl.qualifiedName()}"
-            )
+            // add an import if needed
+            val import = "import ${context.outermostDecl.qualifiedName()}"
+            if (import !in lines)
+                lines.add(
+                    index = lines.indexOfFirst { it.startsWith("import ") },
+                    element = import
+                )
 
             // add the requirement
             lines.add(index = lines.indexOf("}"), element = "$declHeader$declBody")

@@ -2,12 +2,11 @@ package com.william.sample
 
 import androidx.fragment.app.Fragment
 import pers.apollokwok.tracer.common.annotations.Tracer
-import pers.apollokwok.tracer.common.generated.FJAOPChildFragmentTracer
+import pers.apollokwok.tracer.common.generated.ChildFragmentTracer
 
-class FJAOP {
-    @Tracer.Nodes(MyFragment::class)
-    class ChildFragment<T> : Fragment(), FJAOPChildFragmentTracer {
-        val afja = 2
-        override val _FJAOPChildFragment: ChildFragment<*> get() = this
-    }
+@Tracer.Nodes(HomeFragment::class)
+class ChildFragment : Fragment(), ChildFragmentTracer {
+
+
+    override val _ChildFragment: ChildFragment = this
 }
