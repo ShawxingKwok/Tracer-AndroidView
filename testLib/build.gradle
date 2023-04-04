@@ -60,8 +60,8 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach{
 }
 
 dependencies {
-    ksp lib_tracer_common_compiler
-    ksp project(':compiler')
+//    ksp lib_tracer_common_compiler
+//    ksp project(':compiler')
     implementation lib_tracer_common_annotations
 }
 //endregion

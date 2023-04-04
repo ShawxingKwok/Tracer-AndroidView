@@ -61,8 +61,8 @@ private fun process(){
             val declBody = "`_${klass.contractedName}`.$requirement as $cast"
             val outerDeclBody = declBody.replaceFirst("`", "`_")
 
-            val pathEnding = "${Names.GENERATED_PACKAGE}.${getInterfaceNames(klass).first}s"
-                .replace(".", "/")
+            val pathEnding = Names.GENERATED_PACKAGE.replace(".", "/")
+                .plus(getInterfaceNames(klass).first + "s")
                 .plus(".kt")
 
             val correspondingFiles = Environment.codeGenerator.generatedFile.filter { it.path.endsWith(pathEnding) }
