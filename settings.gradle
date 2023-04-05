@@ -27,5 +27,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "TracerAndroidTraditional"
 include ':compiler'
-include ':test'
-include ':testLib'
+include ':app'

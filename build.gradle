@@ -11,7 +11,7 @@ buildscript {
 //        version_ksp = "$version_kt-1.0.9"
         version_gradle = '7.4.0'
 //        version_gradle = '7.4.0-beta02'
-        version_this = "$version_kt-1.1.0"
+        version_this = "$version_kt-1.0.0"
 
         lib_tracer_common_annotations = "$my_group:tracer-common-annotations:1.7.20-1.2.0"
         lib_tracer_common_processor = "$my_group:tracer-common-processor:1.7.20-1.2.0-SNAPSHOT"

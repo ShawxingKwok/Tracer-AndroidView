@@ -4,6 +4,8 @@
     <bytecodeTargetLevel target="1.8">
       <module name="TracerAndroid.test" target="11" />
       <module name="TracerAndroid.testLib" target="11" />
+      <module name="TracerAndroidTraditional.test" target="11" />
+      <module name="TracerAndroidTraditional.testLib" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
