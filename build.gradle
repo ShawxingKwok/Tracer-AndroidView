@@ -19,7 +19,7 @@ buildscript {
 
         lib_kt_util = "$my_group:kt-util:1.0.3"
         lib_ksp = "com.google.devtools.ksp:symbol-processing-api:$version_ksp"
-        lib_ksp_util = "$my_group:ksp-util:1.7.20-1.0.4"
+        lib_ksp_util = "$my_group:ksp-util:1.7.20-1.1.0"
     }
 }
 

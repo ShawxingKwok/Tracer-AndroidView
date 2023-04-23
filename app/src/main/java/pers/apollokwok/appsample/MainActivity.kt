@@ -4,9 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import pers.apollokwok.tracer.common.annotations.Tracer
-import pers.apollokwok.tracer.common.generated.ChildFragmentTracer
-import pers.apollokwok.tracer.common.generated.HomeFragmentTracer
-import pers.apollokwok.tracer.common.generated.MainActivityTracer
 
 @Tracer.Root
 class MainActivity : AppCompatActivity(), MainActivityTracer {
@@ -17,16 +14,10 @@ class MainActivity : AppCompatActivity(), MainActivityTracer {
     override val _MainActivity: MainActivity = this
 }
 
-@Tracer.Nodes(MainActivity::class)
-class HomeFragment : Fragment(), HomeFragmentTracer {
+class KL {
+    @Tracer.Nodes(MainActivity::class)
+    class HomeFragment<T> : Fragment(), KL_HomeFragmentTracer {
 
-    override val _HomeFragment: HomeFragment = this
-    override val __MainActivity get() = requireActivity() as MainActivity
-}
-
-@Tracer.Nodes(HomeFragment::class)
-class ChildFragment : Fragment(), ChildFragmentTracer{
-
-    override val _ChildFragment: ChildFragment = this
-    override val __HomeFragment get() = requireParentFragment() as HomeFragment
+        override val `_KL․HomeFragment‹↓T-Any？›`: HomeFragment<*> get() = this
+    }
 }

@@ -4,6 +4,7 @@ import com.google.devtools.ksp.getClassDeclarationByName
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import pers.apollokwok.ksputil.*
+import pers.apollokwok.ktutil.updateIf
 import pers.apollokwok.tracer.common.shared.*
 
 internal class MyProvider : KspProvider(::MyProcessor)
@@ -47,7 +48,7 @@ private fun process(){
             }
         }
         .forEach { (klass, context, requirement) ->
-            val declHeader = "    override val `__${context.contractedDotName}` get() = "
+            val declHeader = "    override val `__${getRootNodesName(context)}` get() = "
 
             val cast = buildString {
                 append(context.noPackageName()!!)
@@ -58,16 +59,15 @@ private fun process(){
                 }
             }
 
-            val declBody = "`_${klass.contractedDotName}`.$requirement as $cast"
+            val declBody = "`_${getRootNodesName(klass)}`.$requirement as $cast"
             val outerDeclBody = declBody.replaceFirst("`", "`_")
 
-            val pathEnding = Names.GENERATED_PACKAGE.replace(".", "/")
-                .plus("/")
-                .plus(getInterfaceNames(klass).first + "s")
-                .plus(".kt")
+            val pathEnding = klass
+                .packageName().replace(".", "/")
+                .updateIf({ it.any() }){ it.plus("/") }
+                .plus("${klass.noPackageName()}${Names.Tracer}s.kt")
 
             val correspondingFiles = Environment.codeGenerator.generatedFile.filter { it.path.endsWith(pathEnding) }
-
             val lines = correspondingFiles.first().readLines().toMutableList()
 
             // add an import if needed
