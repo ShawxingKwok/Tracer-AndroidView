@@ -67,8 +67,9 @@ private fun process(){
                 .updateIf({ it.any() }){ it.plus("/") }
                 .plus("${klass.noPackageName()}${Names.Tracer}s.kt")
 
-            val correspondingFiles = Environment.codeGenerator.generatedFile.filter { it.path.endsWith(pathEnding) }
-            val lines = correspondingFiles.first().readLines().toMutableList()
+            val correspondingFile = Environment.codeGenerator.generatedFile.first { it.path.endsWith(pathEnding) }
+
+            val lines = correspondingFile.readLines().toMutableList()
 
             // add an import if needed
             val import = "import ${context.outermostDecl.qualifiedName()}"
@@ -83,8 +84,7 @@ private fun process(){
             lines.add(index = lines.lastIndexOf("}"), element = "$declHeader$outerDeclBody")
 
             val newText = lines.joinToString("\n")
-
-            correspondingFiles.forEach { it.writeText(newText) }
+            correspondingFile.writeText(newText)
         }
 
     Log.require(wronglyAnnotatedFragmentKlasses.none(), wronglyAnnotatedFragmentKlasses){
