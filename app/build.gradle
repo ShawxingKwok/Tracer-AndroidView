@@ -41,8 +41,8 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.1'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
@@ -53,16 +53,24 @@ kotlin.sourceSets.configureEach {
 }
 
 //region tracer
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach{
-    kotlinOptions.freeCompilerArgs += "-Xcontext-receivers"
+// options
+ksp{
+//    arg("tracer.internal", "")
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions.freeCompilerArgs += '-Xcontext-receivers'
 }
 
 dependencies {
-    ksp lib_tracer_common_compiler
-    ksp project(':compiler')
-    implementation lib_tracer_common_annotations
+    // Keep this version latest with the prefix not higher than your kotlin version.
+    ksp 'io.github.apollokwok:tracer-common-compiler:1.7.20-1.2.0'
+    // Keep this version latest but not higher than the version above.
+    implementation 'io.github.apollokwok:tracer-common-annotations:1.7.20-1.2.0'
 
-//    ksp 'io.github.apollokwok:tracer-common-compiler:1.7.20-1.2.0'
-//    implementation 'io.github.apollokwok:tracer-common-annotations:1.7.20-1.2.0'
+    // Keep this version latest with the prefix not higher than your kotlin version.
+    // Never put this above 'tracer-common-compiler'
+//    ksp 'io.github.apollokwok:tracer-android-traditional-compiler:1.7.20-1.0.1'
+    ksp project(":compiler")
 }
 //endregion

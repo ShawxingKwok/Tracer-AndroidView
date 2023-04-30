@@ -5,6 +5,7 @@ import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import pers.apollokwok.ksputil.*
 import pers.apollokwok.ktutil.updateIf
+import pers.apollokwok.tracer.common.annotations.Tracer
 import pers.apollokwok.tracer.common.shared.*
 
 internal class MyProvider : KspProvider(::MyProcessor)
@@ -30,17 +31,14 @@ private fun process(){
 
     val wronglyAnnotatedFragmentKlasses = mutableListOf<KSClassDeclaration>()
 
-    getRootNodesKlasses()
+    resolver.getAnnotatedSymbols<Tracer.Nodes, KSClassDeclaration>()
         .filter { fragmentType.isAssignableFrom(it.asStarProjectedType()) }
         .mapNotNull { klass ->
-            val context = klass.context ?: run {
-                wronglyAnnotatedFragmentKlasses += klass
-                return@mapNotNull null
-            }
-            val type = context.asStarProjectedType()
+            val context = klass.context!!
+            val contextType = context.asStarProjectedType()
             when {
-                activityType.isAssignableFrom(type) -> Triple(klass, context, "requireActivity()")
-                fragmentType.isAssignableFrom(type) -> Triple(klass, context, "requireParentFragment()")
+                activityType.isAssignableFrom(contextType) -> Triple(klass, context, "requireActivity()")
+                fragmentType.isAssignableFrom(contextType) -> Triple(klass, context, "requireParentFragment()")
                 else -> {
                     wronglyAnnotatedFragmentKlasses += klass
                     null
@@ -88,8 +86,7 @@ private fun process(){
         }
 
     Log.require(wronglyAnnotatedFragmentKlasses.none(), wronglyAnnotatedFragmentKlasses){
-        "Each android fragment below must be annotated with ${Names.Nodes}, " +
-        "with an arg of its activity class if it's a top fragment " +
-        "or an arg of its parent fragment class if it's a child fragment."
+        "For each android fragment below, " +
+        "its arg `context` in ${Names.Nodes} must be a subclass of `AppCompatActivity` or `Fragment`"
     }
 }

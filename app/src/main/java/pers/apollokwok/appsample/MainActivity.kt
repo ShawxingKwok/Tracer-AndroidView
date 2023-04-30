@@ -1,23 +1,25 @@
 package pers.apollokwok.appsample
 
-import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.take
 import pers.apollokwok.tracer.common.annotations.Tracer
 
 @Tracer.Root
 class MainActivity : AppCompatActivity(), MainActivityTracer {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override val _MainActivity: MainActivity = this
 }
 
-class KL {
-    @Tracer.Nodes(MainActivity::class)
-    class HomeFragment<T> : Fragment(), KL_HomeFragmentTracer {
+@Tracer.Nodes(MainActivity::class)
+class HomeFragment : Fragment(), HomeFragmentTracer {
 
-        override val `_KL․HomeFragment‹↓T-Any？›`: HomeFragment<*> get() = this
-    }
+    override val _HomeFragment: HomeFragment get() = this
+}
+
+@Tracer.Nodes(HomeFragment::class)
+class ChildFragment : Fragment(), ChildFragmentTracer {
+
+    override val _ChildFragment: ChildFragment get() = this
 }
