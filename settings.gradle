@@ -25,6 +25,6 @@ dependencyResolutionManagement {
         }
     }
 }
-rootProject.name = "TracerAndroidTraditional"
+rootProject.name = "TracerAndroidView"
 include ':compiler'
 include ':app'
