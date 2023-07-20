@@ -14,17 +14,8 @@ dependencyResolutionManagement {
 
         // snapshot
         maven{ url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
-
-        // staging
-        maven{
-            url "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-            credentials{
-                username = USERNAME
-                password = PASSWORD
-            }
-        }
     }
 }
-rootProject.name = "TracerAndroidView"
+rootProject.name = "Tracer-AndroidView"
 include ':compiler'
 include ':app'
