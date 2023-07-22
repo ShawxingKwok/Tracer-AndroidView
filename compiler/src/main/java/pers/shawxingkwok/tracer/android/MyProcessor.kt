@@ -86,6 +86,6 @@ private fun process(){
 
     Log.require(wronglyAnnotatedFragmentKlasses.none(), wronglyAnnotatedFragmentKlasses){
         "For each android fragment below, " +
-        "its arg `context` in ${Names.Nodes} must be a subclass of `AppCompatActivity` or `Fragment`".
+        "its arg `context` in ${Names.Nodes} must be a subclass of `AppCompatActivity` or `Fragment`."
     }
 }
