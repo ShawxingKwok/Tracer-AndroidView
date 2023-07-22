@@ -1,16 +1,15 @@
-package pers.apollokwok.tracer.android
+package pers.shawxingkwok.tracer.android
 
 import com.google.devtools.ksp.getClassDeclarationByName
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
-import pers.apollokwok.ksputil.*
-import pers.apollokwok.ktutil.updateIf
-import pers.apollokwok.tracer.common.annotations.Tracer
-import pers.apollokwok.tracer.common.shared.*
+import pers.shawxingkwok.ksputil.*
+import pers.shawxingkwok.ktutil.updateIf
+import pers.shawxingkwok.tracer.Tracer
+import pers.shawxingkwok.tracer.shared.*
 
-internal class MyProvider : KspProvider(::MyProcessor)
-
-private class MyProcessor : KspProcessor {
+@Provide
+internal object MyProcessor : KSProcessor {
     override fun process(times: Int): List<KSAnnotated> {
         if (times == 1) process()
         return emptyList()
@@ -19,7 +18,7 @@ private class MyProcessor : KspProcessor {
 
 // add 'override val xx get() = requireActivity()/requireParentFragment()' in 'XxFragmentTracer'
 private fun process(){
-    // return if error just occurred in tracer-common
+    // return if error just occurred in tracer
     if (!Tags.interfacesBuilt) return
 
     val (activityType, fragmentType) =
@@ -87,6 +86,6 @@ private fun process(){
 
     Log.require(wronglyAnnotatedFragmentKlasses.none(), wronglyAnnotatedFragmentKlasses){
         "For each android fragment below, " +
-        "its arg `context` in ${Names.Nodes} must be a subclass of `AppCompatActivity` or `Fragment`"
+        "its arg `context` in ${Names.Nodes} must be a subclass of `AppCompatActivity` or `Fragment`".
     }
 }

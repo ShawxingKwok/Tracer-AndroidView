@@ -1,0 +1,22 @@
+[versions]
+kt = "1.8.0"
+ksp = "1.8.0-1.0.9"
+agp = "7.4.2"
+
+[plugins]
+publish = { id = "com.vanniktech.maven.publish", version = "0.25.2" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kt" }
+android-kt = { id = "org.jetbrains.kotlin.android", version.ref = "kt" }
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+
+[libraries]
+reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kt" }
+ktTest = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kt" }
+ksp = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
+ktUtil = { group = "io.github.shawxingkwok", name = "kt-util", version = "1.0.0-SNAPSHOT" }
+kspUtil = { group = "io.github.shawxingkwok", name = "ksp-util", version = "1.0.0-SNAPSHOT" }
+tracer-annotations = { group = "io.github.shawxingkwok", name = "tracer-annotations", version = "1.0.0-SNAPSHOT" }
+tracer-processor = { group = "io.github.shawxingkwok", name = "tracer-processor", version = "1.0.0-SNAPSHOT" }
+tracer-compiler = { group = "io.github.shawxingkwok", name = "tracer-compiler", version = "1.0.0-SNAPSHOT" }

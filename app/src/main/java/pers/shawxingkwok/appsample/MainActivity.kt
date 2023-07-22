@@ -1,10 +1,8 @@
-package pers.apollokwok.appsample
+package pers.shawxingkwok.appsample
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.take
-import pers.apollokwok.tracer.common.annotations.Tracer
+import pers.shawxingkwok.tracer.Tracer
 
 @Tracer.Root
 class MainActivity : AppCompatActivity(), MainActivityTracer {

@@ -1,15 +1,17 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
-    id 'com.google.devtools.ksp'
+    alias(libs.plugins.android.kt)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.ksp)
 }
 
 android {
-    namespace 'pers.apollokwok.appsample'
+    namespace 'pers.shawxingkwok.appsample'
     compileSdk 33
 
     defaultConfig {
-        applicationId "pers.apollokwok.appsample"
+        applicationId "pers.shawxingkwok.appsample"
         minSdk 24
         targetSdk 33
         versionCode 1
@@ -37,19 +39,15 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.6.0'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.6.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-}
-
-kotlin.sourceSets.configureEach {
-    kotlin.srcDir("$buildDir/generated/ksp/$name/kotlin/")
 }
 
 //region tracer
@@ -58,19 +56,13 @@ ksp{
 //    arg("tracer.internal", "")
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+tasks.withType(KotlinCompile).configureEach {
     kotlinOptions.freeCompilerArgs += '-Xcontext-receivers'
 }
 
 dependencies {
-    // Keep this version latest with the prefix not higher than your kotlin version.
-    ksp 'io.github.apollokwok:tracer-common-compiler:1.7.20-1.2.0'
-    // Keep this version latest but not higher than the version above.
-    implementation 'io.github.apollokwok:tracer-common-annotations:1.7.20-1.2.0'
-
-    // Keep this version latest with the prefix not higher than your kotlin version.
-    // Never put this above 'tracer-common-compiler'
-//    ksp 'io.github.apollokwok:tracer-android-traditional-compiler:1.7.20-1.0.1'
+    implementation(libs.tracer.annotations)
+    ksp(libs.tracer.compiler)
     ksp project(":compiler")
 }
 //endregion

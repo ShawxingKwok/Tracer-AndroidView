@@ -1,32 +1,8 @@
-buildscript {
-    ext {
-        my_group = "io.github.apollokwok"
-
-        version_kt = '1.7.20'
-        version_ksp = "$version_kt-1.0.8"
-//        version_kt = '1.8.0'
-//        version_ksp = "$version_kt-1.0.9"
-        version_gradle = '7.4.0'
-        version_this = "$version_kt-1.0.1"
-
-        lib_tracer_common_annotations = "$my_group:tracer-common-annotations:1.7.20-1.2.0"
-        lib_tracer_common_processor = "$my_group:tracer-common-processor:1.7.20-1.2.0"
-        lib_tracer_common_compiler = "$my_group:tracer-common-compiler:1.7.20-1.2.0"
-
-        lib_kt_util = "$my_group:kt-util:1.0.3"
-        lib_ksp = "com.google.devtools.ksp:symbol-processing-api:$version_ksp"
-        lib_ksp_util = "$my_group:ksp-util:1.7.20-1.1.0"
-    }
-}
-
 plugins {
-    id 'com.android.application' version "$version_gradle" apply false
-    id 'com.android.library' version "$version_gradle" apply false
-    id 'org.jetbrains.kotlin.android' version "$version_kt" apply false
-    id 'org.jetbrains.kotlin.jvm' version "$version_kt" apply false
-    id 'com.google.devtools.ksp' version "$version_ksp" apply false
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
+    alias(libs.plugins.jvm) apply(false)
+    alias(libs.plugins.ksp) apply(false)
+    alias(libs.plugins.publish) apply(false)
+    alias(libs.plugins.android.application) apply(false)
+    alias(libs.plugins.android.library) apply(false)
+    alias(libs.plugins.android.kt) apply(false)
 }

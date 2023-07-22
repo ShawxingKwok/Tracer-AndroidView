@@ -1,4 +1,4 @@
-package pers.apollokwok.appsample
+package pers.shawxingkwok.appsample
 
 import android.annotation.SuppressLint
 import android.app.Application
