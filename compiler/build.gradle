@@ -23,3 +23,25 @@ tasks.withType(KotlinCompile).configureEach{
         "-opt-in=kotlin.contracts.ExperimentalContracts",
     ]
 }
+
+mavenPublishing {
+    def isSNAPSHOT = true
+    def version = "1.0.0"
+    def artifactId = "tracer-android-view-compiler"
+
+    if (isSNAPSHOT) version += "-SNAPSHOT"
+    coordinates("io.github.shawxingkwok", artifactId, version)
+
+    pom {
+        def repo = "Tracer-AndroidView"
+        name = repo
+        description = "Tracer extension on android view"
+        inceptionYear = "2023"
+
+        url = "https://github.com/ShawxingKwok/$repo/"
+        scm{
+            connection = "scm:git:git://github.com/ShawxingKwok/${repo}.git"
+            developerConnection = "scm:git:ssh://git@github.com/ShawxingKwok/${repo}.git"
+        }
+    }
+}

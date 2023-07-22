@@ -17,6 +17,8 @@ ktTest = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "
 ksp = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
 ktUtil = { group = "io.github.shawxingkwok", name = "kt-util", version = "1.0.0-SNAPSHOT" }
 kspUtil = { group = "io.github.shawxingkwok", name = "ksp-util", version = "1.0.0-SNAPSHOT" }
+androidUtil-core = { group = "io.github.shawxingkwok", name = "android-util-core", version = "1.0.0-SNAPSHOT" }
+androidUtil-view = { group = "io.github.shawxingkwok", name = "android-util-view", version = "1.0.0-SNAPSHOT" }
 tracer-annotations = { group = "io.github.shawxingkwok", name = "tracer-annotations", version = "1.0.0-SNAPSHOT" }
 tracer-processor = { group = "io.github.shawxingkwok", name = "tracer-processor", version = "1.0.0-SNAPSHOT" }
 tracer-compiler = { group = "io.github.shawxingkwok", name = "tracer-compiler", version = "1.0.0-SNAPSHOT" }
