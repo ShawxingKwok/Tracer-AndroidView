@@ -64,7 +64,8 @@ private fun process(){
                 .updateIf({ it.any() }){ it.plus("/") }
                 .plus("${klass.noPackageName()}${Names.Tracer}s.kt")
 
-            val correspondingFile = Environment.codeGenerator.generatedFile.first { it.path.endsWith(pathEnding) }
+            val correspondingFile = Environment.codeGenerator.generatedFile
+                .first { it.path.endsWith(pathEnding) }
 
             val lines = correspondingFile.readLines().toMutableList()
 
