@@ -45,7 +45,7 @@ private fun process(){
             }
         }
         .forEach { (klass, context, requirement) ->
-            val declHeader = "    override val `__${getRootNodesName(context)}` get() = "
+            val declHeader = "    override val `__${getRootNodesPropName(context)}` get() = "
 
             val cast = buildString {
                 append(context.noPackageName()!!)
@@ -56,7 +56,7 @@ private fun process(){
                 }
             }
 
-            val declBody = "`_${getRootNodesName(klass)}`.$requirement as $cast"
+            val declBody = "`_${getRootNodesPropName(klass)}`.$requirement as $cast"
             val outerDeclBody = declBody.replaceFirst("`", "`_")
 
             val pathEnding = klass
