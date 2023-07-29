@@ -9,10 +9,11 @@ plugins {
 dependencies {
     implementation(libs.tracer.annotations)
     implementation(libs.tracer.processor)
-    implementation(libs.ktUtil)
     implementation(libs.ksp)
-    implementation(libs.kspUtil)
-    ksp(libs.kspUtil)
+    implementation(libs.shawxingkwok.ktUtil)
+    implementation(libs.shawxingkwok.kspUtil)
+
+    ksp(libs.shawxingkwok.kspUtil)
 }
 
 tasks.withType(KotlinCompile).configureEach{
