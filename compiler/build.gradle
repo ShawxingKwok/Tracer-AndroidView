@@ -1,19 +1,18 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    alias(libs.plugins.jvm)
-    alias(libs.plugins.publish)
-    alias(libs.plugins.ksp)
+    alias libs.plugins.jvm
+    alias libs.plugins.publish
+    alias libs.plugins.ksp
 }
 
 dependencies {
-    implementation(libs.tracer.annotations)
-    implementation(libs.tracer.processor)
+    implementation(libs.shawxingkwok.tracer.annotations)
+    implementation(libs.shawxingkwok.tracer.processor)
     implementation(libs.ksp)
-    implementation(libs.shawxingkwok.ktUtil)
-    implementation(libs.shawxingkwok.kspUtil)
-
-    ksp(libs.shawxingkwok.kspUtil)
+    implementation(libs.shawxingkwok.kt.util)
+    implementation(libs.shawxingkwok.ksp.util)
+    ksp(libs.shawxingkwok.ksp.util)
 }
 
 tasks.withType(KotlinCompile).configureEach{
