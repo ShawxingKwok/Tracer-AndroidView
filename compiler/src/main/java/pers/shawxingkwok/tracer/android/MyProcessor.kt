@@ -10,8 +10,8 @@ import pers.shawxingkwok.tracer.shared.*
 
 @Provide
 internal object MyProcessor : KSProcessor {
-    override fun process(times: Int): List<KSAnnotated> {
-        if (times == 1) process()
+    override fun process(round: Int): List<KSAnnotated> {
+        if (round == 0) process()
         return emptyList()
     }
 }
@@ -21,30 +21,30 @@ private fun process(){
     // return if error just occurred in tracer
     if (!Tags.interfacesBuilt) return
 
-    val (activityType, fragmentType) =
+    val (activityKSType, fragmentKSType) =
         arrayOf(
             "androidx.appcompat.app.AppCompatActivity",
             "androidx.fragment.app.Fragment",
         )
         .map { resolver.getClassDeclarationByName(it)!!.asStarProjectedType() }
 
-    val wronglyAnnotatedFragmentKlasses = mutableListOf<KSClassDeclaration>()
+    val wronglyAnnotatedFragmentKSClasses = mutableListOf<KSClassDeclaration>()
 
     resolver.getAnnotatedSymbols<Tracer.Nodes, KSClassDeclaration>()
-        .filter { fragmentType.isAssignableFrom(it.asStarProjectedType()) }
-        .mapNotNull { klass ->
-            val context = klass.context!!
+        .filter { fragmentKSType.isAssignableFrom(it.asStarProjectedType()) }
+        .mapNotNull { ksClass ->
+            val context = ksClass.context!!
             val contextType = context.asStarProjectedType()
             when {
-                activityType.isAssignableFrom(contextType) -> Triple(klass, context, "requireActivity()")
-                fragmentType.isAssignableFrom(contextType) -> Triple(klass, context, "requireParentFragment()")
+                activityKSType.isAssignableFrom(contextType) -> Triple(ksClass, context, "requireActivity()")
+                fragmentKSType.isAssignableFrom(contextType) -> Triple(ksClass, context, "requireParentFragment()")
                 else -> {
-                    wronglyAnnotatedFragmentKlasses += klass
+                    wronglyAnnotatedFragmentKSClasses += ksClass
                     null
                 }
             }
         }
-        .forEach { (klass, context, requirement) ->
+        .forEach { (ksClass, context, requirement) ->
             val declHeader = "    override val `__${getRootNodesPropName(context)}` get() = "
 
             val cast = buildString {
@@ -56,13 +56,13 @@ private fun process(){
                 }
             }
 
-            val declBody = "`_${getRootNodesPropName(klass)}`.$requirement as $cast"
+            val declBody = "`_${getRootNodesPropName(ksClass)}`.$requirement as $cast"
             val outerDeclBody = declBody.replaceFirst("`", "`_")
 
-            val pathEnding = klass
+            val pathEnding = ksClass
                 .packageName().replace(".", "/")
                 .updateIf({ it.any() }){ it.plus("/") }
-                .plus("${klass.noPackageName()}${Names.Tracer}s.kt")
+                .plus("${ksClass.noPackageName()}${Names.Tracer}s.kt")
 
             val correspondingFile = Environment.codeGenerator.generatedFile
                 .first { it.path.endsWith(pathEnding) }
@@ -70,7 +70,7 @@ private fun process(){
             val lines = correspondingFile.readLines().toMutableList()
 
             // add an import if needed
-            val import = "import ${context.outermostDecl.qualifiedName()}"
+            val import = "import ${context.outermostDeclaration.qualifiedName()}"
             if (import !in lines)
                 lines.add(
                     index = lines.indexOfFirst { it.startsWith("import ") },
@@ -85,7 +85,7 @@ private fun process(){
             correspondingFile.writeText(newText)
         }
 
-    Log.require(wronglyAnnotatedFragmentKlasses.none(), wronglyAnnotatedFragmentKlasses){
+    Log.require(wronglyAnnotatedFragmentKSClasses.none(), wronglyAnnotatedFragmentKSClasses){
         "For each android fragment below, " +
         "its arg `context` in ${Names.Nodes} must be a subclass of `AppCompatActivity` or `Fragment`."
     }

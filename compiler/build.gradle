@@ -6,6 +6,8 @@ plugins {
     alias libs.plugins.ksp
 }
 
+kotlin.jvmToolchain(8)
+
 dependencies {
     implementation(libs.shawxingkwok.tracer.annotations)
     implementation(libs.shawxingkwok.tracer.processor)
@@ -25,7 +27,7 @@ tasks.withType(KotlinCompile).configureEach{
 }
 
 mavenPublishing {
-    def isSNAPSHOT = true
+    def isSNAPSHOT = false
     def version = "1.0.0"
     def artifactId = "tracer-android-view-compiler"
 
