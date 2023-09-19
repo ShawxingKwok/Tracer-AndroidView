@@ -64,6 +64,7 @@ tasks.withType(KotlinCompile).configureEach {
 dependencies {
     implementation(libs.shawxingkwok.tracer.annotations)
     ksp(libs.shawxingkwok.tracer.compiler)
-    ksp project(":compiler") // “io.github.shawxingkwok:tracer-android-view-compiler:1.0.0"
+//    ksp project(":compiler")
+    ksp "io.github.shawxingkwok:tracer-android-view-compiler:1.0.0"
 }
 //endregion

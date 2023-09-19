@@ -17,4 +17,4 @@ shawxingkwok-kt-util = { group = "io.github.shawxingkwok", name = "kt-util", ver
 shawxingkwok-ksp-util = { group = "io.github.shawxingkwok", name = "ksp-util", version = "1.0.0" }
 shawxingkwok-tracer-annotations = { group = "io.github.shawxingkwok", name = "tracer-annotations", version = "1.0.0" }
 shawxingkwok-tracer-processor = { group = "io.github.shawxingkwok", name = "tracer-processor", version = "1.0.0" }
-shawxingkwok-tracer-compiler = { group = "io.github.shawxingkwok", name = "tracer-compiler", version = "1.0.0" }
+shawxingkwok-tracer-compiler = { group = "io.github.shawxingkwok", name = "tracer-compiler", version = "1.0.2" }
